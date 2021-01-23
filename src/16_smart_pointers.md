@@ -212,20 +212,20 @@ struct shared_ptr {
     shared_ptr(T* ptr)
 	  : ptr(ptr) {
     	if (ptr == nullptr) {
-		return;
+	    return;
 	}
 	try {
-		ref_counter = new size_t(1);
+	    ref_counter = new size_t(1);
 	} catch (...) {
-		delete ptr;
-		throw;
+	    delete ptr;
+	    throw;
 	}
      }
     shared_ptr(shared_ptr const& other)
       : ptr(other.ptr),
     	ref_counter(other.ref_counter) {
 	if (ptr == nullptr) {
-		return;
+	    return;
 	}
 	++ref_counter;
 	}
