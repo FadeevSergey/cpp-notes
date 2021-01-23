@@ -81,6 +81,31 @@ decltype(foo(declval<Arg0>())) qux(Arg0&& arg0) {
     return foo(std::forward<Arg0>(arg0));
 }
 ```
+Или если у класса нет дефолтного конструктора: 
+```
+struct Default 
+{ 
+    int foo() const 
+    { 
+        return 1; 
+    } 
+};
+ 
+struct NonDefault
+{
+    NonDefault() = delete;
+    int foo() const 
+    { 
+        return 1; 
+    }
+};
+ 
+int main()
+{
+    decltype(Default().foo()) n1 = 1;                   // type of n1 is int
+    decltype(NonDefault().foo()) n2 = n1;               // COMPILE ERROR: no default constructor
+    decltype(std::declval<NonDefault>().foo()) n2 = n1; // type of n2 is int
+```
 
 Сигнатура у `declval` могла бы выглядеть как-то так:
 
